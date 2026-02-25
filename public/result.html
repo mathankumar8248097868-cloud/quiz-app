@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Result</title>
+<style>
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:#0f172a;
+  color:white;
+  font-family:Arial;
+}
+.card{
+  background:white;
+  color:black;
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+}
+.big{font-size:40px;font-weight:bold;margin:20px}
+.btn{
+  padding:10px 20px;
+  background:#7c7cff;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>🎉 Quiz Completed</h2>
+
+<p>Participant No:</p>
+<h3 id="participant"></h3>
+
+<div class="big">
+Score: <span id="score"></span>
+</div>
+
+<button class="btn" onclick="finish()">Finish</button>
+</div>
+
+<script>
+
+if (!localStorage.getItem("participant")) {
+  window.location = "register.html";
+}
+
+document.getElementById("participant").textContent =
+  localStorage.getItem("participant");
+
+document.getElementById("score").textContent =
+  localStorage.getItem("finalScore");
+
+function finish(){
+  localStorage.clear();
+  window.location = "register.html";
+}
+
+</script>
+
+</body>
+</html>

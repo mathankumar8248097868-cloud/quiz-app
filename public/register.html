@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register - Smart Quiz</title>
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1b2a4e, #0f172a);
+  color: #fff;
+}
+.container {
+  background: rgba(255,255,255,0.95);
+  color: #000;
+  padding: 30px 40px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+h1 {
+  margin-bottom: 20px;
+}
+input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #7c7cff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: #5a5aff;
+}
+.message {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ef4444;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🧠 Smart Quiz Register</h1>
+  <input type="text" id="name" placeholder="Enter your name" />
+  <input type="email" id="email" placeholder="Enter your email" />
+  <button onclick="register()">Start Quiz</button>
+  <div class="message" id="msg"></div>
+</div>
+<script>
+async function register() {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const msg = document.getElementById("msg");
+  msg.textContent = "";
+
+  if (!name || !email) {
+    msg.textContent = "Please enter both name and email!";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      localStorage.setItem("participant", name);
+      localStorage.setItem("participant_no", data.participant); // store participant_no
+      window.location.href = "quiz.html";
+    } else {
+      msg.textContent = data.message;
+    }
+  } catch (err) {
+    console.error(err);
+    msg.textContent = "Server error, try again!";
+  }
+}
+</script>
+
+</body>
+</html>
